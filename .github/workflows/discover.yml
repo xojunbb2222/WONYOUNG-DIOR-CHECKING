@@ -1,0 +1,35 @@
+
+name: Discover Instagram Media
+
+on:
+  workflow_dispatch:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Discover Instagram posts
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+        run: |
+          python discover_media.py
+
+      - name: Upload candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-candidates
+          path: candidates.json
+          retention-days: 7
