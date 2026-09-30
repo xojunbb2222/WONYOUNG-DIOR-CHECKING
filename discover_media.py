@@ -10,10 +10,23 @@ API_KEY = os.environ["BRIGHTDATA_API_KEY"]
 ZONE = "serp_api1"
 
 SEARCHES = [
+    # 官方话题
     'site:instagram.com "DiorSummer27" "Wonyoung"',
-    'site:instagram.com "DiorSummer27" "Jang Wonyoung"',
     'site:instagram.com "DiorSummer27" "장원영"',
+
+    # 英文媒体报道
+    'site:instagram.com "Jang Wonyoung" "Dior"',
+    'site:instagram.com "Wonyoung" "Dior" "Paris"',
+
+    # 韩国媒体
+    'site:instagram.com "장원영" "디올" "패션쇼"',
+    'site:instagram.com "장원영" "디올" "파리"',
+
+    # 日文及中文媒体
+    'site:instagram.com "ウォニョン" "ディオール"',
+    'site:instagram.com "张元英" "Dior"',
 ]
+
 
 # 只作为媒体候选识别依据，后续可继续扩充
 MEDIA_NAMES = [
