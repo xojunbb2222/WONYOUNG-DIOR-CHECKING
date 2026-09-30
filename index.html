@@ -55,7 +55,8 @@ tr.checked .check{background:#f3f3f3;border-color:#ddd;color:#888}
 <div class="wrap">
 <h1>WONYOUNG × DIOR</h1>
 <div class="desc">Instagram Media Checking · Dior Summer 2027</div>
-<div class="meta"><span id="total">6</span> related posts · <span id="unchecked">6</span> unchecked · 10 per page</div>
+<div class="meta"><span id="total">0</span> related posts · <span id="unchecked">0</span> unchecked · 10 per page</div>
+<div class="desc" id="dataNotice" style="font-size:12px;color:#aa5681">Media candidates · account identities not independently verified · CHECK saved in this browser only</div>
 <div class="toolbar">
 <input class="search" id="search" oninput="resetAndRender()" placeholder="Search account or caption…"/>
 <button class="filter" id="filterBtn" onclick="toggleUnchecked()">ONLY UNCHECKED</button>
@@ -65,26 +66,7 @@ tr.checked .check{background:#f3f3f3;border-color:#ddd;color:#888}
 <thead>
 <tr><th>#</th><th>ACCOUNT</th><th>STATUS</th><th>DATE</th><th>POST</th></tr>
 </thead>
-<tbody id="tbody">
-<tr class="post-row" data-id="3997175231970205082"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd40bIOkt2a/" data-unused="markChecked('3997175231970205082')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997175231970205082')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">🤍 @dior 
-
-@jonathan.anderson 
-#Dior #DiorSummer27</div></td></tr>
-<tr class="post-row" data-id="3997082292250067457"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4fSrXkcIB/" data-unused="markChecked('3997082292250067457')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997082292250067457')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">🍀☁️🩶🪽🎀🌷 @dior @jonathan.anderson 
-
-#Dior #DiorSummer27</div></td></tr>
-<tr class="post-row" data-id="3997047733181588312"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4XbxukaNY/" data-unused="markChecked('3997047733181588312')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997047733181588312')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">Dior and me.🖤 @dior @jonathan.anderson 🤍
-
-#Dior #DiorSummer27</div></td></tr>
-<tr class="post-row" data-id="3996972940553867020"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4GbZqj88M/" data-unused="markChecked('3996972940553867020')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3996972940553867020')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">09.29.26 My first Dior show day. @dior 
-
-@jonathan.anderson #Dior #DiorSummer27</div></td></tr>
-<tr class="post-row" data-id="3995808219469412109"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Ddz9meoD3cN/" data-unused="markChecked('3995808219469412109')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3995808219469412109')">CHECK</button></td><td class="date">2026-09-28</td><td class="caption-cell"><div class="caption">@dior 💐🩶
-
-#Dior #DiorSummer27</div></td></tr>
-<tr class="post-row" data-id="3995794525159146879"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Ddz6fMzj8V_/" data-unused="markChecked('3995794525159146879')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3995794525159146879')">CHECK</button></td><td class="date">2026-09-28</td><td class="caption-cell"><div class="caption">All my love to @dior 🤍
-
-#Dior #DiorSummer27</div></td></tr></tbody>
+<tbody id="tbody"></tbody>
 </table>
 <div class="empty" id="empty">No matching posts.</div>
 </div>
@@ -94,70 +76,61 @@ tr.checked .check{background:#f3f3f3;border-color:#ddd;color:#888}
 <script>
 const PER_PAGE=10;
 const KEY='wonyoung_dior_checked_v2';
-let currentPage=1;
-let onlyUnchecked=false;
-
+let currentPage=1, onlyUnchecked=false;
 function checkedSet(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}}
-function saveSet(s){localStorage.setItem(KEY,JSON.stringify([...s]));}
-
+function saveSet(s){try{localStorage.setItem(KEY,JSON.stringify([...s]))}catch(e){console.warn('Cannot save CHECK state',e)}}
 function syncChecked(){
   const s=checkedSet();
   document.querySelectorAll('.post-row').forEach(r=>{
-    const checked=s.has(r.dataset.id);
-    r.classList.toggle('checked',checked);
-    const b=r.querySelector('.check');
-    if(b) b.textContent=checked?'CHECKED ✓':'CHECK';
+    const yes=s.has(r.dataset.id);r.classList.toggle('checked',yes);
+    const b=r.querySelector('.check');if(b)b.textContent=yes?'CHECKED ✓':'CHECK';
   });
-  document.getElementById('unchecked').textContent=
-    [...document.querySelectorAll('.post-row')].filter(r=>!r.classList.contains('checked')).length;
+  document.getElementById('unchecked').textContent=[...document.querySelectorAll('.post-row')].filter(r=>!r.classList.contains('checked')).length;
 }
-
 function filteredRows(){
-  const q=document.getElementById('search').value.toLowerCase().trim();
-  return [...document.querySelectorAll('.post-row')].filter(r=>{
-    const textOk=!q || r.innerText.toLowerCase().includes(q);
-    const checkOk=!onlyUnchecked || !r.classList.contains('checked');
-    return textOk && checkOk;
-  });
+ const q=document.getElementById('search').value.toLowerCase().trim();
+ return [...document.querySelectorAll('.post-row')].filter(r=>(!q||r.innerText.toLowerCase().includes(q))&&(!onlyUnchecked||!r.classList.contains('checked')));
 }
-
 function render(){
-  syncChecked();
-  const all=[...document.querySelectorAll('.post-row')];
-  all.forEach(r=>r.style.display='none');
-  const rows=filteredRows();
-  const pages=Math.max(1,Math.ceil(rows.length/PER_PAGE));
-  if(currentPage>pages) currentPage=pages;
-  const start=(currentPage-1)*PER_PAGE;
-  rows.slice(start,start+PER_PAGE).forEach((r,i)=>{
-    r.style.display='table-row';
-    r.querySelector('.num').textContent=start+i+1;
-  });
-  document.getElementById('empty').style.display=rows.length?'none':'block';
-
-  const pg=document.getElementById('pagination');
-  pg.innerHTML='';
-  const prev=document.createElement('button'); prev.textContent='‹'; prev.disabled=currentPage===1;
-  prev.onclick=()=>{currentPage--;render()}; pg.appendChild(prev);
-  for(let i=1;i<=pages;i++){
-    const b=document.createElement('button'); b.textContent=i; b.className=i===currentPage?'active':'';
-    b.onclick=()=>{currentPage=i;render()}; pg.appendChild(b);
-  }
-  const next=document.createElement('button'); next.textContent='›'; next.disabled=currentPage===pages;
-  next.onclick=()=>{currentPage++;render()}; pg.appendChild(next);
-  document.getElementById('pageinfo').textContent=rows.length?`Page ${currentPage} of ${pages} · ${rows.length} records`:'0 records';
+ syncChecked();const all=[...document.querySelectorAll('.post-row')];all.forEach(r=>r.style.display='none');
+ document.getElementById('total').textContent=all.length;
+ const rows=filteredRows(),pages=Math.max(1,Math.ceil(rows.length/PER_PAGE));currentPage=Math.max(1,Math.min(currentPage,pages));
+ const start=(currentPage-1)*PER_PAGE;
+ rows.slice(start,start+PER_PAGE).forEach((r,i)=>{r.style.display='table-row';r.querySelector('.num').textContent=start+i+1});
+ document.getElementById('empty').style.display=rows.length?'none':'block';
+ const pg=document.getElementById('pagination');pg.replaceChildren();
+ const button=(text,fn,disabled,cls)=>{const b=document.createElement('button');b.textContent=text;b.disabled=disabled;b.className=cls||'';b.onclick=fn;pg.appendChild(b)};
+ button('‹',()=>{currentPage--;render()},currentPage===1);
+ for(let i=1;i<=pages;i++)button(''+i,()=>{currentPage=i;render()},false,i===currentPage?'active':'');
+ button('›',()=>{currentPage++;render()},currentPage===pages);
+ document.getElementById('pageinfo').textContent=rows.length?`Page ${currentPage} of ${pages} · ${rows.length} records`:'0 records';
 }
-
-function toggleChecked(id){
-  const s=checkedSet(); s.has(id)?s.delete(id):s.add(id); saveSet(s); render();
-}
-function toggleUnchecked(){
-  onlyUnchecked=!onlyUnchecked;
-  document.getElementById('filterBtn').textContent=onlyUnchecked?'SHOW ALL':'ONLY UNCHECKED';
-  currentPage=1; render();
-}
+function toggleChecked(id){const s=checkedSet();s.has(id)?s.delete(id):s.add(id);saveSet(s);render()}
+function toggleUnchecked(){onlyUnchecked=!onlyUnchecked;document.getElementById('filterBtn').textContent=onlyUnchecked?'SHOW ALL':'ONLY UNCHECKED';currentPage=1;render()}
 function resetAndRender(){currentPage=1;render()}
-render();
+function cell(tr,cls,txt){let td=document.createElement('td');td.className=cls||'';if(txt!==undefined)td.textContent=txt;tr.appendChild(td);return td}
+function addPost(post){
+ if(!post||!post.id||!post.url||!/^https:\/\/www\.instagram\.com\/(p|reel|tv)\/[A-Za-z0-9_-]+\/?$/.test(post.url))return;
+ const tr=document.createElement('tr');tr.className='post-row';tr.dataset.id=String(post.id);
+ cell(tr,'num','');const td=cell(tr,'');const a=document.createElement('a');a.className='account-link';a.textContent='@'+String(post.account||'unknown');a.href=post.url;a.target='_blank';a.rel='noopener noreferrer';td.appendChild(a);
+ const status=cell(tr,'');const dot=document.createElement('span');dot.className='status-dot';status.appendChild(dot);
+ const label=document.createElement('span');label.className='status-text';label.textContent='New';status.appendChild(label);
+ const check=document.createElement('button');check.className='check';check.textContent='CHECK';check.onclick=()=>toggleChecked(String(post.id));status.appendChild(check);
+ cell(tr,'date',String(post.date||'').slice(0,10));const captd=cell(tr,'caption-cell');const div=document.createElement('div');div.className='caption';div.textContent=String(post.caption||'');div.title=String(post.caption||'');captd.appendChild(div);
+ document.getElementById('tbody').appendChild(tr);
+}
+async function load(){
+ try{
+  const response=await fetch('./posts.json?cache='+Date.now(),{cache:'no-store'});
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  const data=await response.json();const list=Array.isArray(data)?data:data.posts;
+  if(!Array.isArray(list))throw new Error('Invalid posts.json');
+  const used=new Set();list.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).forEach(p=>{if(!p.id||used.has(String(p.id)))return;used.add(String(p.id));addPost(p)});
+  document.getElementById('dataNotice').textContent=`Media candidates (unverified) · Data: ${data.updated_at||'unknown'} · CHECK saved in this browser only`;
+ }catch(e){document.getElementById('dataNotice').textContent='Unable to load posts.json — check repository upload and refresh';console.error(e)}
+ render();
+}
+load();
 </script>
 </body>
 </html>
