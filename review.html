@@ -1,46 +1,72 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WONYOUNG × DIOR · 媒体原帖审核</title><style>
-:root{font-family:Arial,'Microsoft YaHei',sans-serif;color:#1c1c21;background:#faf9fb}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1100px;margin:auto;padding:34px 18px 80px}h1{margin:0 0 7px;font-size:28px;letter-spacing:-.04em}p{color:#666;font-size:14px;line-height:1.7}.top{background:white;border:1px solid #ece9ec;border-radius:16px;padding:20px;margin:18px 0}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}input,select,button{border:1px solid #dedbe0;padding:11px 12px;border-radius:9px;font-size:14px;background:#fff}input{min-width:200px;flex:1}button{cursor:pointer}button.primary{background:#1b1b22;color:white;border-color:#1b1b22}button:disabled{opacity:.4;cursor:default}.count{font-weight:700}.item{border:1px solid #ece9ec;background:white;border-radius:13px;margin:11px 0;padding:17px}.line{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.account{font-weight:800}.chip{font-size:11px;background:#f5f1f4;border-radius:7px;padding:6px 8px;color:#915477}.hint{font-size:12px;color:#8a7f89}.caption{color:#4b4750;font-size:13px;line-height:1.6;white-space:pre-wrap;max-height:80px;overflow:hidden;margin:10px 0}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.actions a{font-size:13px;color:#a4457c}.status{font-size:12px;color:#777}.notice{background:#fff5f8;color:#764260;border:1px solid #f3d9e6;padding:12px;border-radius:8px;font-size:13px}#result{font-size:13px;color:#525057;margin-top:8px}@media(max-width:600px){h1{font-size:23px}.toolbar{display:grid}input{min-width:0}}
-</style></head><body><div class="wrap"><h1>WONYOUNG × DIOR</h1><p>MEDIA VERIFICATION · 人工核对原帖后，再发布到 Checking。</p><div class="top"><div class="notice">⚠️ Instagram 有时会把 /reel/ 地址跳到无关视频。可先试 /p/ 地址，再试原始 /reel/ 地址；两种都打不开正确内容就不要确认。此页面不是自动证明帖子的工具。必须亲自确认：原帖确实由所显示的媒体账号发布、内容涉及张元英出席 Dior SS27、链接打开后没有跳转到无关帖子。<strong>没有核对的帖子不要勾选。</strong>通过勾选不会直接修改 GitHub。</div><div class="toolbar"><input id="search" placeholder="按媒体账号或文案搜索" aria-label="搜索"><select id="scope" aria-label="显示范围"><option value="media">优先查看媒体候选</option><option value="all">全部待审记录</option><option value="approved">仅已确认</option></select><button class="primary" id="export" disabled>导出已确认帖子</button></div><p id="result">加载中...</p></div><main id="list"></main></div><script>
-const STORE='wonyoung_dior_manual_approved_v2';let candidates=[],trust=new Set(),excluded=new Set(),approved={},opened={};
-try{approved=JSON.parse(localStorage.getItem(STORE)||'{}')}catch{approved={}}
-const $=x=>document.getElementById(x);
-function alternativePermalink(raw) {
- const id=code(raw);
- return id ? 'https://www.instagram.com/p/'+encodeURIComponent(id)+'/' : raw;
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WONYOUNG × DIOR · Media Review</title>
+<style>
+:root{font-family:Arial,'Microsoft YaHei',sans-serif;color:#1c1c21;background:#faf9fb}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1100px;margin:auto;padding:34px 18px 80px}h1{margin:0 0 7px;font-size:28px;letter-spacing:-.04em}p{color:#666;font-size:14px;line-height:1.7}.top{background:white;border:1px solid #ece9ec;border-radius:16px;padding:20px;margin:18px 0}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}input,select,button{border:1px solid #dedbe0;padding:11px 12px;border-radius:9px;font-size:14px;background:#fff}input{min-width:200px;flex:1}button{cursor:pointer}button.primary{background:#1b1b22;color:white;border-color:#1b1b22}button:disabled{opacity:.4;cursor:default}.item{border:1px solid #ece9ec;background:white;border-radius:13px;margin:11px 0;padding:17px}.line{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.account{font-weight:800}.chip{font-size:11px;background:#f5f1f4;border-radius:7px;padding:6px 8px;color:#915477}.hint{font-size:12px;color:#8a7f89}.caption{color:#4b4750;font-size:13px;line-height:1.6;white-space:pre-wrap;max-height:95px;overflow:hidden;margin:10px 0}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.actions a{font-size:13px;color:#a4457c}.status{font-size:12px;color:#777}.notice{background:#fff5f8;color:#764260;border:1px solid #f3d9e6;padding:12px;border-radius:8px;font-size:13px}#result{font-size:13px;color:#525057;margin-top:8px}@media(max-width:600px){h1{font-size:23px}.toolbar{display:grid}input{min-width:0}}
+</style>
+</head>
+<body><div class="wrap">
+<h1>WONYOUNG × DIOR</h1>
+<p>MEDIA VERIFICATION · 自动发现，人工确认后再发布到 Checking。</p>
+<div class="top">
+<div class="notice">⚠️ 新发现但不在旧白名单里的账号，不再被系统卡死。你只要亲自确认：①确实是媒体/编辑/时尚内容账号；②帖子内容与张元英 × Dior SS27 相关；③链接打开后是正确原帖。确认后即可勾选。明显粉丝号、无关内容不要确认。</div>
+<div class="toolbar">
+<input id="search" placeholder="按账号或文案搜索">
+<select id="scope"><option value="reviewable">可人工审核候选</option><option value="known">仅已知媒体</option><option value="new">仅新账号</option><option value="all">全部待审</option><option value="approved">仅已确认</option></select>
+<button class="primary" id="export" disabled>导出已确认帖子</button>
+</div><p id="result">加载中...</p></div>
+<main id="list"></main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const STORE='wonyoung_dior_manual_approved_v3';
+let candidates=[],trust=new Set(),excluded=new Set(),published=new Set(),approved={},opened={};
+try{approved=JSON.parse(localStorage.getItem(STORE)||'{}')||{}}catch(e){approved={}}
+function code(url){const m=String(url||'').match(/^https:\/\/www\.instagram\.com\/(?:p|reel|reels|tv)\/([A-Za-z0-9_-]+)\/?(?:\?.*)?$/);return m?m[1]:null}
+function alt(url){const c=code(url);return c?`https://www.instagram.com/p/${c}/`:''}
+function relevant(item){const s=((item.caption||'')+' '+(item.account||'')).toLowerCase();const who=['wonyoung','jangwonyoung','jang wonyoung','장원영','원영','ウォニョン','张元英','張員瑛'];const brand=['dior','디올','ディオール'];return who.some(x=>s.includes(x))&&brand.some(x=>s.includes(x))}
+function possibleVisual(item){const s=String(item.caption||'').toLowerCase();return ['dior','디올','ディオール'].some(x=>s.includes(x))&&String(item.date||'').slice(0,10)>='2026-09-27'}
+function known(item){return trust.has(String(item.account||'').toLowerCase())}
+function reviewable(item){return !!item.id&&code(item.url)===String(item.id)&&!!item.account&&!excluded.has(String(item.account).toLowerCase())&&!published.has(String(item.id))&&(relevant(item)||possibleVisual(item))&&String(item.date||'').slice(0,10)>='2026-09-27'}
+function render(){
+ const q=$('search').value.toLowerCase().trim(),scope=$('scope').value;
+ Object.keys(approved).forEach(id=>{if(published.has(id))delete approved[id]});localStorage.setItem(STORE,JSON.stringify(approved));
+ let data=candidates.filter(x=>{
+  if(scope==='approved')return !!approved[x.id];
+  if(scope==='all')return !published.has(String(x.id));
+  if(scope==='known')return reviewable(x)&&known(x);
+  if(scope==='new')return reviewable(x)&&!known(x);
+  return reviewable(x);
+ }).filter(x=>!q||((x.account||'')+' '+(x.caption||'')).toLowerCase().includes(q)).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+ const selected=Object.keys(approved).length;$('export').disabled=!selected;
+ $('result').textContent=`待审 ${candidates.filter(x=>!published.has(String(x.id))).length} · 可审核 ${candidates.filter(reviewable).length} · 新账号 ${candidates.filter(x=>reviewable(x)&&!known(x)).length} · 已确认 ${selected} · 当前显示 ${data.length}`;
+ const frag=document.createDocumentFragment();
+ for(const item of data){
+  const el=document.createElement('article');el.className='item';
+  const heading=document.createElement('div');heading.className='line';
+  const acc=document.createElement('span');acc.className='account';acc.textContent='@'+(item.account||'unknown');
+  const chip=document.createElement('span');chip.className='chip';chip.textContent=known(item)?'已知媒体 · 待核对':'新账号 · 先确认是否媒体';heading.append(acc,chip);el.append(heading);
+  const meta=document.createElement('p');meta.className='hint';meta.textContent=`${String(item.date||'未知日期').slice(0,10)} · ${item.id} · ${item.review_reason||item.review_status||''}`;el.append(meta);
+  const cap=document.createElement('div');cap.className='caption';cap.textContent=String(item.caption||'（无文案）').slice(0,800);el.append(cap);
+  const actions=document.createElement('div');actions.className='actions';
+  const stable=document.createElement('a');stable.textContent='尝试 /p/ 原帖 ↗';stable.href=alt(item.url)||'#';stable.target='_blank';stable.rel='noopener noreferrer';actions.append(stable);
+  if(/^https:\/\/www\.instagram\.com\/reels?\//.test(item.url||'')){const original=document.createElement('a');original.textContent='原始 /reel/ ↗';original.href=item.url;original.target='_blank';original.rel='noopener noreferrer';actions.append(original);original.onclick=()=>{opened[item.id]=original.href;check.disabled=!reviewable(item)}}
+  const profile=document.createElement('a');profile.textContent='查看账号 ↗';profile.href='https://www.instagram.com/'+encodeURIComponent(item.account||'')+'/';profile.target='_blank';profile.rel='noopener noreferrer';actions.append(profile);
+  const label=document.createElement('label');label.className='status';const check=document.createElement('input');check.type='checkbox';check.checked=!!approved[item.id];check.disabled=!reviewable(item)||(!opened[item.id]&&!approved[item.id]);check.style.minWidth='auto';check.style.marginLeft='10px';
+  stable.onclick=()=>{opened[item.id]=stable.href;check.disabled=!reviewable(item)};
+  check.onchange=()=>{if(check.checked){if(!opened[item.id]){check.checked=false;return}approved[item.id]={id:String(item.id),account:item.account,url:opened[item.id],reviewed:true}}else delete approved[item.id];localStorage.setItem(STORE,JSON.stringify(approved));render()};
+  label.append(check,document.createTextNode(' 核对成功后勾选'));actions.append(label);el.append(actions);frag.append(el);
+ }
+ $('list').replaceChildren(frag);
 }
-
-function code(url){const m=String(url||'').match(/^https:\/\/www\.instagram\.com\/(?:p|reel|reels|tv)\/([\w-]{5,})\/?(?:\?.*)?$/);return m?.[1]||null}
-function relevant(item){let t=String(item.caption||'').toLowerCase();return ['wonyoung','장원영','원영','ウォニョン','张元英','張員瑛','for_everyoung10'].some(s=>t.includes(s.toLowerCase()))&&['dior','디올','ディオール','迪奥','迪奧'].some(s=>t.includes(s.toLowerCase()))}
-function possibleVisual(item){
- return item.review_reason==='possible_visual_mention_requires_review' &&
- ['dior','디올','ディオール','迪奥','迪奧'].some(t=>String(item.caption||'').toLowerCase().includes(t.toLowerCase()));
-}
-function valid(item){return !!item.id&&code(item.url)===item.id&&!!item.account&&trust.has(item.account.toLowerCase())&&!excluded.has(item.account.toLowerCase())&&(relevant(item)||possibleVisual(item))&&String(item.date||'').slice(0,10)>='2026-09-27'}
-function render(){let q=$('search').value.toLowerCase().trim(),scope=$('scope').value,selected=Object.values(approved).length;
-$('export').disabled=!selected;
-let data=candidates.filter(x=>scope==='approved'?!!approved[x.id]:scope==='all'?true:valid(x)).filter(x=>!q||(x.account+' '+x.caption).toLowerCase().includes(q));
-$('result').textContent=`待审总数 ${candidates.length} · 媒体候选 ${candidates.filter(valid).length} · 已确认 ${selected} · 当前显示 ${data.length}`;
-let frag=document.createDocumentFragment();for(const item of data){const el=document.createElement('article');el.className='item';const heading=document.createElement('div');heading.className='line';const account=document.createElement('span');account.className='account';account.textContent='@'+(item.account||'unknown');const type=document.createElement('span');type.className='chip';type.textContent=possibleVisual(item)?'Dior 秀场稿 · 请检查图片是否有张元英':valid(item)?'媒体候选 · 待核对':'不符合自动初筛 · 慎重审核';heading.append(account,type);el.append(heading);
-const meta=document.createElement('p');meta.className='hint';meta.textContent=`${(item.date||'未知日期').slice(0,10)} · ${item.id} · ${item.review_reason||item.review_status||''}`;el.append(meta);
-const excerpt=document.createElement('div');excerpt.className='caption';excerpt.textContent=String(item.caption||'（无文案）').slice(0,650);el.append(excerpt);
-const actions=document.createElement('div');actions.className='actions';const link=document.createElement('a');link.textContent='尝试稳定 /p/ 原帖 ↗';link.href=alternativePermalink(item.url)||'#';link.target='_blank';link.rel='noopener noreferrer';const profile=document.createElement('a');profile.textContent='查看该账号 ↗';profile.href='https://www.instagram.com/'+encodeURIComponent(item.account||'')+'/';profile.target='_blank';profile.rel='noopener noreferrer';actions.append(link);
-if(/^https:\/\/www\.instagram\.com\/reels?\//.test(item.url||'')){
- const original=document.createElement('a');
- original.textContent='原始 /reel/ 链接 ↗';
- original.href=item.url;original.target='_blank';original.rel='noopener noreferrer';
- original.addEventListener('click',()=>{opened[item.id]=original.href;const chk=el.querySelector('input[type=checkbox]');if(chk)chk.disabled=!valid(item);});
- actions.append(original);
-}
-actions.append(profile);
-const label=document.createElement('label');label.className='status';const check=document.createElement('input');check.type='checkbox';check.checked=!!approved[item.id];check.disabled=!valid(item)||!opened[item.id]&&!approved[item.id];check.style.minWidth='auto';check.style.marginLeft='10px';
-function pickLink(url){opened[item.id]=url;check.disabled=!valid(item);}
-link.addEventListener('click',()=>pickLink(link.href));
-check.addEventListener('change',()=>{if(check.checked){
-  if(!opened[item.id]){check.checked=false;return;}
-  approved[item.id]={id:item.id,account:item.account,url:opened[item.id],reviewed:true};
-}else{delete approved[item.id]}localStorage.setItem(STORE,JSON.stringify(approved));render()});
-label.append(check,document.createTextNode(' 核对成功后勾选（保存刚打开的入口）'));actions.append(label);el.append(actions);frag.append(el)}$('list').replaceChildren(frag)}
-$('search').addEventListener('input',render);$('scope').addEventListener('change',render);
-$('export').addEventListener('click',()=>{const payload={approved:Object.values(approved),note:'Each record manually confirmed for account, post content, and permalink by reviewer.'};const data=new Blob([JSON.stringify(payload,null,2)+'\n'],{type:'application/json'});const u=URL.createObjectURL(data);const a=document.createElement('a');a.href=u;a.download='approved-posts.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)});
-Promise.all([fetch('./media-review-queue.json?cache='+Date.now()).then(x=>{if(!x.ok)throw Error('review '+x.status);return x.json()}),fetch('./trusted_media.json?cache='+Date.now()).then(x=>{if(!x.ok)throw Error('trusted '+x.status);return x.json()})]).then(([items,list])=>{candidates=Array.isArray(items)?items:[];trust=new Set((list.accounts||[]).map(x=>x.toLowerCase()));excluded=new Set((list.excluded_accounts||[]).map(x=>x.toLowerCase()));render()}).catch(e=>{$('result').textContent='数据加载失败：'+e.message+'，请通过 GitHub Pages 访问此页面。'});
+$('search').oninput=render;$('scope').onchange=render;
+$('export').onclick=()=>{const payload={approved:Object.values(approved),note:'Each record manually confirmed for account identity, post content, and permalink by reviewer.'};const blob=new Blob([JSON.stringify(payload,null,2)+'\n'],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='approved-posts.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)};
+Promise.all([
+ fetch('./media-review-queue.json?cache='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(Error('queue '+r.status))),
+ fetch('./trusted_media.json?cache='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(Error('trusted '+r.status))),
+ fetch('./posts.json?cache='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject(Error('posts '+r.status)))
+]).then(([items,t,p])=>{candidates=Array.isArray(items)?items:[];trust=new Set((t.accounts||[]).map(x=>x.toLowerCase()));excluded=new Set((t.excluded_accounts||[]).map(x=>x.toLowerCase()));published=new Set(((Array.isArray(p)?p:p.posts)||[]).map(x=>String(x.id)));render()}).catch(e=>{$('result').textContent='数据加载失败：'+e.message});
 </script></body></html>
