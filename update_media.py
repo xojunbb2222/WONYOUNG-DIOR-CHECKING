@@ -70,24 +70,35 @@ def normalized_url(url):
 
 
 def discovered_urls(document):
-    """Collect result hrefs (not arbitrary Instagram links buried in JS/text).
+    """Recover possible IG links from Google anchor URLs or encoded search markup.
 
-    Google /url?q redirects are supported. SEO snippets aren't treated as proof of publication.
+    Links are CANDIDATES only. Public publishing still requires verified author,
+    shortcode and topical relevance; substring matches are never trusted alone.
     """
-    soup = BeautifulSoup(document, 'html.parser')
+    text = html.unescape(document or '')
+    text = text.replace('\\/', '/').replace('\\u002F', '/')
+    text = text.replace('\\u003A', ':').replace('\\u0026', '&')
+    for _ in range(2):
+        text = urllib.parse.unquote(text)
     urls = set()
-    for anchor in soup.find_all('a', href=True):
-        href = html.unescape(anchor.get('href', ''))
+    anchor_count = 0
+    for a in BeautifulSoup(text, 'html.parser').find_all('a', href=True):
+        href = html.unescape(a.get('href', ''))
         if href.startswith('/url?'):
             params = urllib.parse.parse_qs(urllib.parse.urlsplit(href).query)
             href = (params.get('q') or params.get('url') or [''])[0]
-        for _ in range(2):
-            href = urllib.parse.unquote(href)
-        candidate = normalized_url(href)
-        if candidate:
-            urls.add(candidate)
+        normalized = normalized_url(href)
+        if normalized:
+            urls.add(normalized)
+            anchor_count += 1
+    # SERP HTML can put result links inside script data rather than anchor hrefs.
+    for match in POST_REGEX.finditer(text):
+        normalized = normalized_url('https://www.instagram.com/' + match.group(1) + '/' + match.group(2) + '/')
+        if normalized:
+            urls.add(normalized)
+    print('SERP HTML length:', len(text), 'anchor matches:', anchor_count,
+          'candidate URLs:', len(urls))
     return urls
-
 
 def relevant(caption):
     s = str(caption or '').casefold()
@@ -100,9 +111,14 @@ def request_serp(key, query):
         'https://api.brightdata.com/request',
         headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
         json={'zone': SERP_ZONE, 'url': url, 'format': 'raw'}, timeout=120)
-    result.raise_for_status()
+    print('SERP HTTP status:', result.status_code,
+          'content type:', result.headers.get('Content-Type', '?'),
+          'response bytes:', len(result.content))
+    if not result.ok:
+        # Do not print the response body or authorization header: secrets-safe logs.
+        print('SERP provider returned non-2xx HTTP status', result.status_code)
+        result.raise_for_status()
     return discovered_urls(result.text)
-
 
 def request_posts(key, urls):
     res = requests.post(
