@@ -23,26 +23,39 @@ MEDIA_NAMES = [
     "sportsseoul", "gettyimages", "hypebeast",
 ]
 
+
 def extract_links(page):
-    soup = BeautifulSoup(page, "html.parser")
+    import html
+    import re
+    import urllib.parse
+
     links = set()
+    text = html.unescape(page)
 
-    for a in soup.find_all("a", href=True):
-        href = a["href"]
-        if href.startswith("/url?"):
-            query = urllib.parse.parse_qs(
-                urllib.parse.urlparse(href).query
-            )
-            href = query.get("q", [""])[0]
+    # 还原 JSON 转义和编码后的链接
+    text = text.replace("\\/", "/")
+    text = text.replace("\\u002F", "/")
+    text = text.replace("\\u003A", ":")
+    text = text.replace("\\u0026", "&")
 
-        match = re.search(
-            r"https?://(?:www\.)?instagram\.com/"
-            r"(?:p|reel)/[A-Za-z0-9_-]+",
-            href,
+    for _ in range(2):
+        text = urllib.parse.unquote(text)
+
+    pattern = (
+        r"(?:https?://)?(?:www\.)?"
+        r"instagram\.com/(p|reel|tv)/"
+        r"([A-Za-z0-9_-]{5,})"
+    )
+
+    for match in re.finditer(pattern, text, re.I):
+        kind = match.group(1).lower()
+        shortcode = match.group(2)
+
+        links.add(
+            f"https://www.instagram.com/{kind}/{shortcode}/"
         )
-        if match:
-            links.add(match.group(0).split("?")[0] + "/")
 
+    print("Instagram URL matches:", len(links))
     return links
 
 all_links = set()
