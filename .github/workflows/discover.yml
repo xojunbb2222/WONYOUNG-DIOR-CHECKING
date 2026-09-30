@@ -26,10 +26,16 @@ jobs:
           BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
         run: |
           python discover_media.py
-
+      - name: Collect Instagram post details
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+        run: |
+          python collect_posts.py
       - name: Upload candidates
         uses: actions/upload-artifact@v4
         with:
           name: media-candidates
-          path: candidates.json
+          path: |
+            candidates.json
+            instagram-results.json
           retention-days: 7
