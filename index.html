@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>WONYOUNG × DIOR · Instagram Checking</title>
+<style>
+:root{--bg:#fafafa;--panel:#fff;--ink:#151515;--muted:#757575;--line:#e7e7e7;--pink:#ee9fc3;--pink-soft:#fff1f7;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 18px 60px}
+h1{font-size:28px;margin:0 0 5px;letter-spacing:-.03em}
+.desc{color:var(--muted);font-size:13px;margin-bottom:7px}
+.meta{color:#999;font-size:12px;margin-bottom:18px}
+.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:14px 0}
+.search{width:320px;max-width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-size:14px}
+.filter{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+.table-wrap{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead th{background:#f7f7f9;color:#555;font-size:11px;font-weight:700;letter-spacing:0;text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+tbody td{padding:10px;border-bottom:1px solid #ececef;vertical-align:middle;font-size:12px}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.checked{opacity:.48;background:#fafafa}
+.num{width:46px;color:#aaa;text-align:center}
+.account{font-weight:800;font-size:13px}
+.date{font-size:11px;color:#999;margin-top:4px}
+.caption-cell{max-width:560px}
+.caption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:560px}
+.action-cell{width:170px;white-space:nowrap}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35c98a;margin-right:6px;vertical-align:1px}.status-text{font-size:12px;color:#666;font-weight:700}
+.open,.check{display:inline-block;border-radius:7px;padding:7px 9px;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer}
+.open{background:#111;color:#fff;border:1px solid #111}
+.check{background:var(--pink-soft);color:#b75584;border:1px solid #f2c5da;margin-left:6px}
+tr.checked .check{background:#f3f3f3;border-color:#ddd;color:#888}
+.pagination{display:flex;justify-content:center;gap:7px;margin-top:20px;flex-wrap:wrap}
+.pagination button{border:1px solid var(--line);background:#fff;border-radius:8px;min-width:36px;height:36px;cursor:pointer;font-weight:700}
+.pagination button.active{background:#111;color:#fff;border-color:#111}
+.pagination button:disabled{opacity:.35;cursor:default}
+.pageinfo{text-align:center;color:#888;font-size:12px;margin-top:10px}
+.empty{display:none;text-align:center;color:#999;padding:36px}
+@media(max-width:720px){
+  h1{font-size:26px}
+  .toolbar{align-items:stretch;flex-direction:column}
+  .search{width:100%}
+}
+
+.account-link{color:#111;text-decoration:none;font-weight:800}
+.account-link:hover{text-decoration:underline}
+.status-text{margin-right:6px}
+.check{padding:5px 8px;font-size:10px;margin-left:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>WONYOUNG × DIOR</h1>
+<div class="desc">Instagram Media Checking · Dior Summer 2027</div>
+<div class="meta"><span id="total">6</span> related posts · <span id="unchecked">6</span> unchecked · 10 per page</div>
+<div class="toolbar">
+<input class="search" id="search" oninput="resetAndRender()" placeholder="Search account or caption…"/>
+<button class="filter" id="filterBtn" onclick="toggleUnchecked()">ONLY UNCHECKED</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>#</th><th>ACCOUNT</th><th>STATUS</th><th>DATE</th><th>POST</th></tr>
+</thead>
+<tbody id="tbody">
+<tr class="post-row" data-id="3997175231970205082"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd40bIOkt2a/" data-unused="markChecked('3997175231970205082')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997175231970205082')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">🤍 @dior 
+
+@jonathan.anderson 
+#Dior #DiorSummer27</div></td></tr>
+<tr class="post-row" data-id="3997082292250067457"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4fSrXkcIB/" data-unused="markChecked('3997082292250067457')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997082292250067457')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">🍀☁️🩶🪽🎀🌷 @dior @jonathan.anderson 
+
+#Dior #DiorSummer27</div></td></tr>
+<tr class="post-row" data-id="3997047733181588312"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4XbxukaNY/" data-unused="markChecked('3997047733181588312')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3997047733181588312')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">Dior and me.🖤 @dior @jonathan.anderson 🤍
+
+#Dior #DiorSummer27</div></td></tr>
+<tr class="post-row" data-id="3996972940553867020"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Dd4GbZqj88M/" data-unused="markChecked('3996972940553867020')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3996972940553867020')">CHECK</button></td><td class="date">2026-09-29</td><td class="caption-cell"><div class="caption">09.29.26 My first Dior show day. @dior 
+
+@jonathan.anderson #Dior #DiorSummer27</div></td></tr>
+<tr class="post-row" data-id="3995808219469412109"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Ddz9meoD3cN/" data-unused="markChecked('3995808219469412109')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3995808219469412109')">CHECK</button></td><td class="date">2026-09-28</td><td class="caption-cell"><div class="caption">@dior 💐🩶
+
+#Dior #DiorSummer27</div></td></tr>
+<tr class="post-row" data-id="3995794525159146879"><td class="num"></td><td><a class="account-link" href="https://www.instagram.com/p/Ddz6fMzj8V_/" data-unused="markChecked('3995794525159146879')" rel="noopener noreferrer" target="_blank">@for_everyoung10</a></td><td><span class="status-dot"></span><span class="status-text">New</span> <button class="check" onclick="toggleChecked('3995794525159146879')">CHECK</button></td><td class="date">2026-09-28</td><td class="caption-cell"><div class="caption">All my love to @dior 🤍
+
+#Dior #DiorSummer27</div></td></tr></tbody>
+</table>
+<div class="empty" id="empty">No matching posts.</div>
+</div>
+<div class="pagination" id="pagination"></div>
+<div class="pageinfo" id="pageinfo"></div>
+</div>
+<script>
+const PER_PAGE=10;
+const KEY='wonyoung_dior_checked_v2';
+let currentPage=1;
+let onlyUnchecked=false;
+
+function checkedSet(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}}
+function saveSet(s){localStorage.setItem(KEY,JSON.stringify([...s]));}
+
+function syncChecked(){
+  const s=checkedSet();
+  document.querySelectorAll('.post-row').forEach(r=>{
+    const checked=s.has(r.dataset.id);
+    r.classList.toggle('checked',checked);
+    const b=r.querySelector('.check');
+    if(b) b.textContent=checked?'CHECKED ✓':'CHECK';
+  });
+  document.getElementById('unchecked').textContent=
+    [...document.querySelectorAll('.post-row')].filter(r=>!r.classList.contains('checked')).length;
+}
+
+function filteredRows(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  return [...document.querySelectorAll('.post-row')].filter(r=>{
+    const textOk=!q || r.innerText.toLowerCase().includes(q);
+    const checkOk=!onlyUnchecked || !r.classList.contains('checked');
+    return textOk && checkOk;
+  });
+}
+
+function render(){
+  syncChecked();
+  const all=[...document.querySelectorAll('.post-row')];
+  all.forEach(r=>r.style.display='none');
+  const rows=filteredRows();
+  const pages=Math.max(1,Math.ceil(rows.length/PER_PAGE));
+  if(currentPage>pages) currentPage=pages;
+  const start=(currentPage-1)*PER_PAGE;
+  rows.slice(start,start+PER_PAGE).forEach((r,i)=>{
+    r.style.display='table-row';
+    r.querySelector('.num').textContent=start+i+1;
+  });
+  document.getElementById('empty').style.display=rows.length?'none':'block';
+
+  const pg=document.getElementById('pagination');
+  pg.innerHTML='';
+  const prev=document.createElement('button'); prev.textContent='‹'; prev.disabled=currentPage===1;
+  prev.onclick=()=>{currentPage--;render()}; pg.appendChild(prev);
+  for(let i=1;i<=pages;i++){
+    const b=document.createElement('button'); b.textContent=i; b.className=i===currentPage?'active':'';
+    b.onclick=()=>{currentPage=i;render()}; pg.appendChild(b);
+  }
+  const next=document.createElement('button'); next.textContent='›'; next.disabled=currentPage===pages;
+  next.onclick=()=>{currentPage++;render()}; pg.appendChild(next);
+  document.getElementById('pageinfo').textContent=rows.length?`Page ${currentPage} of ${pages} · ${rows.length} records`:'0 records';
+}
+
+function toggleChecked(id){
+  const s=checkedSet(); s.has(id)?s.delete(id):s.add(id); saveSet(s); render();
+}
+function toggleUnchecked(){
+  onlyUnchecked=!onlyUnchecked;
+  document.getElementById('filterBtn').textContent=onlyUnchecked?'SHOW ALL':'ONLY UNCHECKED';
+  currentPage=1; render();
+}
+function resetAndRender(){currentPage=1;render()}
+render();
+</script>
+</body>
+</html>
