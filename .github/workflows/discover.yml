@@ -38,4 +38,5 @@ jobs:
           path: |
             candidates.json
             instagram-results.json
+            instagram-response.txt
           retention-days: 7
