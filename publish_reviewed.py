@@ -44,6 +44,9 @@ def main():
             print('SKIP: invalid or mismatched review',ident);continue
         # Author and content were checked by the reviewer; no claim of automatic verification.
         row={k:record.get(k,'') for k in ('id','account','url','date','caption')}
+        # Preserve the *exact permalink the reviewer opened and approved*, not
+        # the originally discovered (possibly misdirecting) /reel/ URL.
+        row['url']=item['url']
         row.update({'review_status':'manually_verified','source':'manual_review'})
         existing.setdefault('posts',[]).append(row)
         published.add(ident);count+=1
