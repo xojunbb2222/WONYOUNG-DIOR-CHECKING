@@ -1,0 +1,12 @@
+{
+  "accounts": [
+    "voguekorea", "voguephilippines", "voguejapan", "voguethailand", "voguesingapore", "voguehongkong", "voguechina", "vogueindia", "voguearabia", "voguefrance", "vogueitalia", "voguegermany", "voguemagazine", "britishvogue", "vogueaustralia", "voguebrasil", "voguemexico", "vogueespana",
+    "ellekorea", "ellejapan", "ellesingapore", "ellethailandofficial", "ellehongkong", "ellechina", "elleusa", "elleuk", "ellefr", "elleitalia", "ellemalaysia", "elleindonesia",
+    "harpersbazaarjapan", "harpersbazaarkorea", "harpersbazaarus", "harpersbazaaruk", "harpersbazaarsg", "harpersbazaarhk", "harpersbazaarthailand", "harpersbazaarmy", "harpersbazaararabia",
+    "marieclairekorea", "marieclairejapan", "marieclairemag", "marieclaireuk", "marieclairetw",
+    "lofficielkorea", "lofficielmy", "lofficielparis", "lofficielusa", "lofficielitalia", "lofficielsingapore", "lofficielthailand",
+    "wwd", "wwdjapan", "hypebeast", "hypebae", "fashiontomax", "dazed", "dazedkorea", "grazia", "graziakorea", "graziaindia", "cosmopolitankorea", "cosmopolitan", "allurekorea", "allure", "noblessekorea", "pap_magazine", "mensfoliomy", "luxuryeditors", "dailyfashion_news", "dispatch", "newsen", "starnews", "sportsseoul", "gettyimages", "gettyentertainment", "dip_magazine", "bluemag.official"
+  ],
+  "excluded_accounts": ["for_everyoung10", "jwonyoungallery", "wonyoungdollz"],
+  "notice": "Working shortlist, NOT evidence of account ownership or post validity. Review handles before treating them as trusted."
+}
