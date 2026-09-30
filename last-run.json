@@ -1,3 +1,9 @@
 {
-  "status": "not_run_yet"
+  "time_utc": "2026-09-30T15:08:55.954984+00:00",
+  "queries_used": 2,
+  "selected": 0,
+  "returned": 0,
+  "published": 0,
+  "needs_review": 0,
+  "note": "Public publishing only when independent Instagram metadata confirms post ID and known media account; otherwise queued."
 }
