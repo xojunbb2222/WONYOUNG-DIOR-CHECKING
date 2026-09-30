@@ -71,6 +71,9 @@ for query in SEARCHES:
         )
         response.raise_for_status()
 
+        print("HTTP status:", response.status_code)
+        print("HTML length:", len(response.text))
+
         links = extract_links(response.text)
         all_links.update(links)
         print("Found:", len(links))
