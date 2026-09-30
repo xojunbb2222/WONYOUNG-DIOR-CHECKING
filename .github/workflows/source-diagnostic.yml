@@ -1,0 +1,31 @@
+name: Verify Instagram Source (One-Time Diagnostic)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install requests
+        run: python -m pip install 'requests>=2.31,<3'
+      - name: Compare two existing Instagram input links (one paid batch)
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+        run: python check_post_source.py
+      - name: Upload diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-source-diagnostic
+          path: source-diagnostic.json
+          if-no-files-found: warn
+          retention-days: 7
