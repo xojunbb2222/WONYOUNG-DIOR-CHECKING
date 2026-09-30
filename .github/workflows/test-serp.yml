@@ -1,0 +1,59 @@
+
+name: Test Instagram Media Discovery
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-search:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Search Instagram posts via Bright Data
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import urllib.request
+          import urllib.parse
+          import json
+
+          query = 'site:instagram.com "DiorSummer27" "Wonyoung"'
+          search_url = (
+              "https://www.google.com/search?q="
+              + urllib.parse.quote(query)
+          )
+
+          payload = json.dumps({
+              "zone": "serp_api1",
+              "url": search_url,
+              "format": "raw"
+          }).encode("utf-8")
+
+          req = urllib.request.Request(
+              "https://api.brightdata.com/request",
+              data=payload,
+              headers={
+                  "Authorization": "Bearer " + os.environ["BRIGHTDATA_API_KEY"],
+                  "Content-Type": "application/json"
+              },
+              method="POST"
+          )
+
+          with urllib.request.urlopen(req, timeout=180) as response:
+              result = response.read().decode("utf-8", "replace")
+              print("HTTP status:", response.status)
+              print("Response size:", len(result))
+
+          with open("search-result.html", "w", encoding="utf-8") as f:
+              f.write(result)
+
+          print("Test request completed.")
+          PY
+
+      - name: Save search result
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-search-test
+          path: search-result.html
