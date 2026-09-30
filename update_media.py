@@ -105,20 +105,69 @@ def relevant(caption):
     return any(t.casefold() in s for t in TERMS_WONYOUNG) and any(t.casefold() in s for t in TERMS_DIOR)
 
 
+def discovered_urls_json(payload):
+    """Extract plausible Instagram post permalinks from Light JSON organic results.
+
+    Source schema may vary by locale/provider version. URL matches are *candidates*,
+    never proof of a media account's authorship.
+    """
+    links = set()
+    fields = ('link', 'url', 'href', 'source_url', 'target_url')
+    nodes_examined = 0
+
+    def visit(obj, depth=0):
+        nonlocal nodes_examined
+        if depth > 8 or nodes_examined >= 6000:
+            return
+        nodes_examined += 1
+        if isinstance(obj, dict):
+            for name in fields:
+                value = obj.get(name)
+                if isinstance(value, str):
+                    found = normalized_url(html.unescape(value))
+                    if found:
+                        links.add(found)
+            for value in obj.values():
+                if isinstance(value, (dict, list)):
+                    visit(value, depth + 1)
+        elif isinstance(obj, list):
+            for item in obj[:1000]:
+                if isinstance(item, (dict, list)):
+                    visit(item, depth + 1)
+    visit(payload)
+    print('SERP JSON nodes:', nodes_examined, 'candidate URLs:', len(links))
+    return links
+
+
 def request_serp(key, query):
     url = 'https://www.google.com/search?q=' + urllib.parse.quote(query)
     result = requests.post(
         'https://api.brightdata.com/request',
         headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
-        json={'zone': SERP_ZONE, 'url': url, 'format': 'raw'}, timeout=120)
+        json={'zone': SERP_ZONE, 'url': url, 'format': 'json',
+              'data_format': 'parsed_light'}, timeout=120)
     print('SERP HTTP status:', result.status_code,
           'content type:', result.headers.get('Content-Type', '?'),
           'response bytes:', len(result.content))
-    if not result.ok:
-        # Do not print the response body or authorization header: secrets-safe logs.
-        print('SERP provider returned non-2xx HTTP status', result.status_code)
-        result.raise_for_status()
-    return discovered_urls(result.text)
+    result.raise_for_status()
+    if not result.content.strip():
+        print('SERP EMPTY RESPONSE: provider sent no body, even with parsed_light; '
+              'check Bright Data delivery/endpoint before rerunning.')
+        return set()
+    try:
+        payload = result.json()
+    except ValueError:
+        print('SERP NON-JSON RESPONSE; no candidates accepted')
+        return set()
+    if isinstance(payload, dict):
+        print('SERP top-level fields:', sorted(payload.keys())[:20])
+    elif isinstance(payload, list):
+        print('SERP top-level array length:', len(payload))
+    else:
+        print('SERP unexpected response type:', type(payload).__name__)
+        return set()
+    return discovered_urls_json(payload)
+
 
 def request_posts(key, urls):
     res = requests.post(
