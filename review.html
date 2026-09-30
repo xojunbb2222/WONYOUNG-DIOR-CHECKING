@@ -11,12 +11,16 @@ function alternativePermalink(raw) {
 
 function code(url){const m=String(url||'').match(/^https:\/\/www\.instagram\.com\/(?:p|reel|reels|tv)\/([\w-]{5,})\/?(?:\?.*)?$/);return m?.[1]||null}
 function relevant(item){let t=String(item.caption||'').toLowerCase();return ['wonyoung','장원영','원영','ウォニョン','张元英','張員瑛','for_everyoung10'].some(s=>t.includes(s.toLowerCase()))&&['dior','디올','ディオール','迪奥','迪奧'].some(s=>t.includes(s.toLowerCase()))}
-function valid(item){return !!item.id&&code(item.url)===item.id&&!!item.account&&trust.has(item.account.toLowerCase())&&!excluded.has(item.account.toLowerCase())&&relevant(item)&&String(item.date||'').slice(0,10)>='2026-09-27'}
+function possibleVisual(item){
+ return item.review_reason==='possible_visual_mention_requires_review' &&
+ ['dior','디올','ディオール','迪奥','迪奧'].some(t=>String(item.caption||'').toLowerCase().includes(t.toLowerCase()));
+}
+function valid(item){return !!item.id&&code(item.url)===item.id&&!!item.account&&trust.has(item.account.toLowerCase())&&!excluded.has(item.account.toLowerCase())&&(relevant(item)||possibleVisual(item))&&String(item.date||'').slice(0,10)>='2026-09-27'}
 function render(){let q=$('search').value.toLowerCase().trim(),scope=$('scope').value,selected=Object.values(approved).length;
 $('export').disabled=!selected;
 let data=candidates.filter(x=>scope==='approved'?!!approved[x.id]:scope==='all'?true:valid(x)).filter(x=>!q||(x.account+' '+x.caption).toLowerCase().includes(q));
 $('result').textContent=`待审总数 ${candidates.length} · 媒体候选 ${candidates.filter(valid).length} · 已确认 ${selected} · 当前显示 ${data.length}`;
-let frag=document.createDocumentFragment();for(const item of data){const el=document.createElement('article');el.className='item';const heading=document.createElement('div');heading.className='line';const account=document.createElement('span');account.className='account';account.textContent='@'+(item.account||'unknown');const type=document.createElement('span');type.className='chip';type.textContent=valid(item)?'媒体候选 · 待核对':'不符合自动初筛 · 慎重审核';heading.append(account,type);el.append(heading);
+let frag=document.createDocumentFragment();for(const item of data){const el=document.createElement('article');el.className='item';const heading=document.createElement('div');heading.className='line';const account=document.createElement('span');account.className='account';account.textContent='@'+(item.account||'unknown');const type=document.createElement('span');type.className='chip';type.textContent=possibleVisual(item)?'Dior 秀场稿 · 请检查图片是否有张元英':valid(item)?'媒体候选 · 待核对':'不符合自动初筛 · 慎重审核';heading.append(account,type);el.append(heading);
 const meta=document.createElement('p');meta.className='hint';meta.textContent=`${(item.date||'未知日期').slice(0,10)} · ${item.id} · ${item.review_reason||item.review_status||''}`;el.append(meta);
 const excerpt=document.createElement('div');excerpt.className='caption';excerpt.textContent=String(item.caption||'（无文案）').slice(0,650);el.append(excerpt);
 const actions=document.createElement('div');actions.className='actions';const link=document.createElement('a');link.textContent='尝试稳定 /p/ 原帖 ↗';link.href=alternativePermalink(item.url)||'#';link.target='_blank';link.rel='noopener noreferrer';const profile=document.createElement('a');profile.textContent='查看该账号 ↗';profile.href='https://www.instagram.com/'+encodeURIComponent(item.account||'')+'/';profile.target='_blank';profile.rel='noopener noreferrer';actions.append(link);

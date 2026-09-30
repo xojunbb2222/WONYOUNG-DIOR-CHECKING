@@ -22,7 +22,11 @@ SCRAPE_LIMIT = 8
 MAX_ROWS = 1500
 QUERIES = [
     'site:instagram.com "Wonyoung" "DiorSummer27"',
+    # Broad fashion-media discovery: catches visual/roundup posts without a name mention.
+    # These are NEVER automatically approved merely for mentioning Dior.
+    'site:instagram.com "DiorSummer27" "fashion week"',
     'site:instagram.com "장원영" "디올" "쇼"',
+    'site:instagram.com "DiorSummer27" "runway"',
     'site:instagram.com "ウォニョン" "ディオール"',
     'site:instagram.com "张元英" "迪奥"',
     'site:instagram.com "Jang Wonyoung" "Dior" "Paris"',
@@ -178,8 +182,21 @@ def request_posts(key, urls):
 
 
 def relevant(caption):
+    # Matching a name in plain prose counts: an Instagram @mention is NOT required.
     s = str(caption or '').casefold()
     return any(x.casefold() in s for x in PERSON_TERMS) and any(x.casefold() in s for x in DIOR_TERMS)
+
+
+def possible_visual_event(caption):
+    # Broad discovery candidates must still originate from listed media and be
+    # manually opened. A generic Dior fashion-week roundup may not feature Wonyoung.
+    s = str(caption or '').casefold()
+    if 'diorsummer27' in s or 'dior27ss' in s:
+        return True
+    return any(x.casefold() in s for x in DIOR_TERMS) and any(
+        t in s for t in ('ss27', '2027', 'fashion week', 'runway', 'fashion show',
+                        '时装周', '패션위크', 'パリコレ', '秀场', '쇼장')
+    )
 
 
 def verify_original(url, account):
@@ -272,7 +289,8 @@ def main():
         else:
             item['review_reason'] = ('excluded_account' if account in excluded else
                  'unlisted_account' if account not in trusted else
-                 'missing_topics' if not relevant(caption) else 'original_post_unverified')
+                 ('possible_visual_mention_requires_review' if possible_visual_event(caption)
+                  else 'missing_topics') if not relevant(caption) else 'original_post_unverified')
             review.append(item)
             pending.add(ident)
             new_queue += 1
