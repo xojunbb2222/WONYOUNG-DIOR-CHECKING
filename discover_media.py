@@ -101,8 +101,14 @@ for query in SEARCHES:
         print("HTML length:", len(response.text))
 
         links = extract_links(response.text)
+
+        before = len(all_links)
         all_links.update(links)
-        print("Found:", len(links))
+        new_count = len(all_links) - before
+
+        print("Found in this search:", len(links))
+        print("New unique posts:", new_count)
+        print("Total unique posts:", len(all_links))
 
     except requests.RequestException as error:
         print("Search failed:", type(error).__name__)
