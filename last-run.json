@@ -1,9 +1,9 @@
 {
-  "time_utc": "2026-09-30T15:33:29.753829+00:00",
+  "time_utc": "2026-09-30T15:40:45.532072+00:00",
   "queries_used": 2,
-  "selected": 0,
-  "returned": 0,
+  "selected": 8,
+  "returned": 8,
   "published": 0,
-  "needs_review": 0,
-  "note": "Public publishing only when independent Instagram metadata confirms post ID and known media account; otherwise queued."
+  "needs_review": 8,
+  "note": "Only independently verified posts are published. All other new records are queued."
 }
