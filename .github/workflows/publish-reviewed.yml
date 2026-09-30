@@ -1,0 +1,24 @@
+name: Publish manually verified media
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Publish human-approved posts without scraping
+        run: python publish_reviewed.py
+      - name: Commit verified posts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add posts.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish manually verified Wonyoung Dior media'
+            git push
+          fi
