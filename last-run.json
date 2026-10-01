@@ -1,12 +1,12 @@
 {
-  "time_utc": "2026-10-01T04:37:10.838164+00:00",
+  "time_utc": "2026-10-01T04:52:23.489754+00:00",
   "queries_used": 4,
-  "discovered_unique": 23,
-  "new_selected": 14,
+  "discovered_unique": 9,
+  "new_selected": 9,
   "refresh_selected": 6,
-  "returned": 20,
-  "auto_published": 1,
-  "queued_for_review": 13,
+  "returned": 15,
+  "auto_published": 3,
+  "queued_for_review": 6,
   "refreshed": 6,
   "retryable_missing": 0,
   "note": "High-confidence media rows publish automatically as AUTO; lower-confidence rows remain in review queue."
