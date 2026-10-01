@@ -1,16 +1,16 @@
 {
-  "time_utc": "2026-10-01T06:27:19.918766+00:00",
+  "time_utc": "2026-10-01T06:33:11.649367+00:00",
   "queries_used": 4,
-  "discovered_unique": 5,
-  "new_selected": 5,
+  "discovered_unique": 0,
+  "new_selected": 0,
   "refresh_selected": 6,
-  "returned": 11,
+  "returned": 6,
   "auto_published": 0,
-  "queued_for_review": 5,
+  "queued_for_review": 0,
   "refreshed": 6,
   "retryable_missing": 0,
   "note": "High-confidence media rows publish automatically as AUTO; lower-confidence rows remain in review queue.",
-  "post_filter_removed_false_positive": 1,
-  "post_filter_promoted_from_queue": 7,
+  "post_filter_removed_false_positive": 0,
+  "post_filter_promoted_from_queue": 0,
   "public_total_after_filter": 30
 }
