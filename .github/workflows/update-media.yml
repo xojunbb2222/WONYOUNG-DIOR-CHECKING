@@ -2,8 +2,6 @@ name: Discover global WONYOUNG Dior media
 
 on:
   workflow_dispatch:
-  # Temporary 15-minute pilot. After 2 scheduled runs, the collector stops
-  # making paid calls automatically until the workflow is intentionally revised.
   schedule:
     - cron: '7,22,37,52 * * * *'
 
@@ -17,7 +15,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,86 +25,31 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Decide whether this pilot should collect
-        id: gate
-        env:
-          TRIGGER_KIND: ${{ github.event_name }}
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          state_path = Path('auto-pilot-state.json')
-          try:
-              state = json.loads(state_path.read_text(encoding='utf-8'))
-          except (FileNotFoundError, ValueError):
-              state = {}
-          count = max(0, int(state.get('completed_scheduled_runs', 0)))
-          trigger = os.environ['TRIGGER_KIND']
-          execute = trigger == 'workflow_dispatch' or count < 2
-          print(f'Pilot trigger={trigger}; completed scheduled runs={count}; execute={execute}')
-          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
-              output.write(f'execute={str(execute).lower()}\n')
-          PY
-
-      - name: Reserve a paid pilot slot before making requests
-        if: github.event_name == 'schedule' && steps.gate.outputs.execute == 'true'
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          from datetime import datetime, timezone
-
-          state_path = Path('auto-pilot-state.json')
-          try:
-              state = json.loads(state_path.read_text(encoding='utf-8'))
-          except (FileNotFoundError, ValueError):
-              state = {}
-          count = max(0, int(state.get('completed_scheduled_runs', 0)))
-          if count >= 2:
-              raise RuntimeError('Paid pilot slots exhausted; abort before API request')
-          state['completed_scheduled_runs'] = count + 1
-          state['last_scheduled_utc'] = datetime.now(timezone.utc).isoformat()
-          state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-          print(f"Reserved scheduled pilot slot {state['completed_scheduled_runs']}/2")
-          PY
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add auto-pilot-state.json
-          git commit -m 'Reserve media discovery pilot slot'
-          git push
-
       - name: Install dependencies
-        if: steps.gate.outputs.execute == 'true'
         run: python -m pip install 'requests>=2.31,<3' 'beautifulsoup4>=4.12,<5'
 
-      - name: Discover new media candidates (paid Bright Data requests)
-        if: steps.gate.outputs.execute == 'true'
+      - name: Discover, scrape, refresh and auto-publish media
         env:
           BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
         run: python update_media.py
 
-      - name: Commit discovery and pilot state
-        if: steps.gate.outputs.execute == 'true'
+      - name: Commit live media data
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add posts.json media-state.json media-review-queue.json last-run.json
-          if [ -f auto-pilot-state.json ]; then git add auto-pilot-state.json; fi
           if ! git diff --cached --quiet; then
-            git commit -m 'Update Wonyoung media discovery and pilot state'
+            git commit -m 'Auto-update Wonyoung Dior media feed'
             git push
           fi
 
-      - name: Upload pilot result
+      - name: Upload run report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: media-discovery-report
+          name: wonyoung-media-run-report
           path: |
             last-run.json
             media-review-queue.json
-            auto-pilot-state.json
           if-no-files-found: warn
-          retention-days: 5
+          retention-days: 3
