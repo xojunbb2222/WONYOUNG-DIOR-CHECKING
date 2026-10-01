@@ -1,9 +1,13 @@
 {
-  "time_utc": "2026-09-30T17:49:26.906906+00:00",
-  "queries_used": 2,
-  "selected": 8,
-  "returned": 0,
-  "published": 0,
-  "needs_review": 0,
-  "note": "Only independently verified posts are published. All other new records are queued."
+  "time_utc": "2026-10-01T04:20:53.862291+00:00",
+  "queries_used": 4,
+  "discovered_unique": 22,
+  "new_selected": 14,
+  "refresh_selected": 6,
+  "returned": 20,
+  "auto_published": 1,
+  "queued_for_review": 11,
+  "refreshed": 6,
+  "retryable_missing": 2,
+  "note": "High-confidence media rows publish automatically as AUTO; lower-confidence rows remain in review queue."
 }
