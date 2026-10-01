@@ -1,136 +1,36 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>WONYOUNG × DIOR · Instagram Checking</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>WONYOUNG × DIOR · Media Tracking</title>
 <style>
-:root{--bg:#fafafa;--panel:#fff;--ink:#151515;--muted:#757575;--line:#e7e7e7;--pink:#ee9fc3;--pink-soft:#fff1f7;}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
-.wrap{max-width:1180px;margin:0 auto;padding:34px 18px 60px}
-h1{font-size:28px;margin:0 0 5px;letter-spacing:-.03em}
-.desc{color:var(--muted);font-size:13px;margin-bottom:7px}
-.meta{color:#999;font-size:12px;margin-bottom:18px}
-.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:14px 0}
-.search{width:320px;max-width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-size:14px}
-.filter{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
-.table-wrap{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:900px}
-thead th{background:#f7f7f9;color:#555;font-size:11px;font-weight:700;letter-spacing:0;text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
-tbody td{padding:10px;border-bottom:1px solid #ececef;vertical-align:middle;font-size:12px}
-tbody tr:last-child td{border-bottom:none}
-tbody tr.checked{opacity:.48;background:#fafafa}
-.num{width:46px;color:#aaa;text-align:center}
-.account{font-weight:800;font-size:13px}
-.date{font-size:11px;color:#999;margin-top:4px}
-.caption-cell{max-width:560px}
-.caption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:560px}
-.action-cell{width:170px;white-space:nowrap}
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35c98a;margin-right:6px;vertical-align:1px}.status-text{font-size:12px;color:#666;font-weight:700}
-.open,.check{display:inline-block;border-radius:7px;padding:7px 9px;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer}
-.open{background:#111;color:#fff;border:1px solid #111}
-.check{background:var(--pink-soft);color:#b75584;border:1px solid #f2c5da;margin-left:6px}
-tr.checked .check{background:#f3f3f3;border-color:#ddd;color:#888}
-.pagination{display:flex;justify-content:center;gap:7px;margin-top:20px;flex-wrap:wrap}
-.pagination button{border:1px solid var(--line);background:#fff;border-radius:8px;min-width:36px;height:36px;cursor:pointer;font-weight:700}
-.pagination button.active{background:#111;color:#fff;border-color:#111}
-.pagination button:disabled{opacity:.35;cursor:default}
-.pageinfo{text-align:center;color:#888;font-size:12px;margin-top:10px}
-.empty{display:none;text-align:center;color:#999;padding:36px}
-@media(max-width:720px){
-  h1{font-size:26px}
-  .toolbar{align-items:stretch;flex-direction:column}
-  .search{width:100%}
-}
-
-.account-link{color:#111;text-decoration:none;font-weight:800}
-.account-link:hover{text-decoration:underline}
-.status-text{margin-right:6px}
-.check{padding:5px 8px;font-size:10px;margin-left:4px}
+:root{--bg:#fafafa;--panel:#fff;--ink:#151515;--muted:#777;--line:#e8e8e8;--pink:#d9669b;--soft:#fff0f6;--green:#228b61}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:1220px;margin:0 auto;padding:32px 18px 64px} h1{font-size:28px;margin:0 0 5px;letter-spacing:-.03em}
+.desc{color:var(--muted);font-size:13px;margin-bottom:6px}.meta{font-size:12px;color:#999;margin:12px 0 18px}
+.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin:14px 0}.search{width:340px;max-width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-size:14px}.filter{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+.table-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:1020px}thead th{background:#f7f7f9;color:#555;font-size:11px;text-align:left;padding:10px;border-bottom:1px solid var(--line)}tbody td{padding:10px;border-bottom:1px solid #eee;vertical-align:middle;font-size:12px}tbody tr:last-child td{border-bottom:none}tbody tr.checked{opacity:.45}.num{width:46px;color:#aaa;text-align:center}.account-link{font-weight:800;color:#111;text-decoration:none}.account-link:hover{text-decoration:underline}.date{color:#888;font-size:11px}.caption-cell{max-width:390px}.caption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:390px}.metric{text-align:right;font-variant-numeric:tabular-nums}.status{white-space:nowrap}.badge{display:inline-block;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:800}.badge.auto{background:var(--soft);color:#b34e7c}.badge.verified{background:#edf8f3;color:var(--green)}.check{margin-left:6px;border:1px solid #e8c6d6;background:#fff7fb;color:#a44e78;border-radius:7px;padding:5px 8px;font-size:10px;font-weight:700;cursor:pointer}.pagination{display:flex;justify-content:center;gap:7px;margin-top:20px;flex-wrap:wrap}.pagination button{border:1px solid var(--line);background:#fff;border-radius:8px;min-width:36px;height:36px;cursor:pointer;font-weight:700}.pagination button.active{background:#111;color:#fff;border-color:#111}.pagination button:disabled{opacity:.35}.pageinfo{text-align:center;color:#888;font-size:12px;margin-top:10px}.empty{display:none;text-align:center;color:#999;padding:38px}.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#37b879;margin-right:5px}
+@media(max-width:720px){h1{font-size:25px}.toolbar{align-items:stretch;flex-direction:column}.search{width:100%}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>WONYOUNG × DIOR</h1>
-<div class="desc">Instagram Media Checking · Dior Summer 2027</div>
-<div class="meta"><span id="total">0</span> related posts · <span id="unchecked">0</span> unchecked · 10 per page</div>
-<div class="desc" id="dataNotice" style="font-size:12px;color:#aa5681">Media candidates · account identities not independently verified · CHECK saved in this browser only</div>
-<div class="toolbar">
-<input class="search" id="search" oninput="resetAndRender()" placeholder="Search account or caption…"/>
-<button class="filter" id="filterBtn" onclick="toggleUnchecked()">ONLY UNCHECKED</button>
-</div>
-<div class="table-wrap">
-<table>
-<thead>
-<tr><th>#</th><th>ACCOUNT</th><th>STATUS</th><th>DATE</th><th>POST</th></tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-<div class="empty" id="empty">No matching posts.</div>
-</div>
-<div class="pagination" id="pagination"></div>
-<div class="pageinfo" id="pageinfo"></div>
+<div class="desc">Instagram Media Tracking · Dior Summer 2027</div>
+<div class="meta"><span class="live-dot"></span><span id="total">0</span> posts · <span id="unchecked">0</span> unchecked · auto refresh every 60s</div>
+<div class="desc" id="dataNotice">Loading live feed…</div>
+<div class="toolbar"><input class="search" id="search" placeholder="Search account or caption…"/><button class="filter" id="filterBtn">ONLY UNCHECKED</button></div>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>ACCOUNT</th><th>STATUS</th><th>DATE</th><th>LIKES</th><th>COMMENTS</th><th>VIEWS</th><th>POST</th></tr></thead><tbody id="tbody"></tbody></table><div class="empty" id="empty">No matching posts.</div></div>
+<div class="pagination" id="pagination"></div><div class="pageinfo" id="pageinfo"></div>
 </div>
 <script>
-const PER_PAGE=10;
-const KEY='wonyoung_dior_checked_v2';
-let currentPage=1, onlyUnchecked=false;
-function checkedSet(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}}
-function saveSet(s){try{localStorage.setItem(KEY,JSON.stringify([...s]))}catch(e){console.warn('Cannot save CHECK state',e)}}
-function syncChecked(){
-  const s=checkedSet();
-  document.querySelectorAll('.post-row').forEach(r=>{
-    const yes=s.has(r.dataset.id);r.classList.toggle('checked',yes);
-    const b=r.querySelector('.check');if(b)b.textContent=yes?'CHECKED ✓':'CHECK';
-  });
-  document.getElementById('unchecked').textContent=[...document.querySelectorAll('.post-row')].filter(r=>!r.classList.contains('checked')).length;
-}
-function filteredRows(){
- const q=document.getElementById('search').value.toLowerCase().trim();
- return [...document.querySelectorAll('.post-row')].filter(r=>(!q||r.innerText.toLowerCase().includes(q))&&(!onlyUnchecked||!r.classList.contains('checked')));
-}
-function render(){
- syncChecked();const all=[...document.querySelectorAll('.post-row')];all.forEach(r=>r.style.display='none');
- document.getElementById('total').textContent=all.length;
- const rows=filteredRows(),pages=Math.max(1,Math.ceil(rows.length/PER_PAGE));currentPage=Math.max(1,Math.min(currentPage,pages));
- const start=(currentPage-1)*PER_PAGE;
- rows.slice(start,start+PER_PAGE).forEach((r,i)=>{r.style.display='table-row';r.querySelector('.num').textContent=start+i+1});
- document.getElementById('empty').style.display=rows.length?'none':'block';
- const pg=document.getElementById('pagination');pg.replaceChildren();
- const button=(text,fn,disabled,cls)=>{const b=document.createElement('button');b.textContent=text;b.disabled=disabled;b.className=cls||'';b.onclick=fn;pg.appendChild(b)};
- button('‹',()=>{currentPage--;render()},currentPage===1);
- for(let i=1;i<=pages;i++)button(''+i,()=>{currentPage=i;render()},false,i===currentPage?'active':'');
- button('›',()=>{currentPage++;render()},currentPage===pages);
- document.getElementById('pageinfo').textContent=rows.length?`Page ${currentPage} of ${pages} · ${rows.length} records`:'0 records';
-}
-function toggleChecked(id){const s=checkedSet();s.has(id)?s.delete(id):s.add(id);saveSet(s);render()}
-function toggleUnchecked(){onlyUnchecked=!onlyUnchecked;document.getElementById('filterBtn').textContent=onlyUnchecked?'SHOW ALL':'ONLY UNCHECKED';currentPage=1;render()}
-function resetAndRender(){currentPage=1;render()}
-function cell(tr,cls,txt){let td=document.createElement('td');td.className=cls||'';if(txt!==undefined)td.textContent=txt;tr.appendChild(td);return td}
-function addPost(post){
- if(!post||!post.id||!post.url||!/^https:\/\/www\.instagram\.com\/(p|reel|tv)\/[A-Za-z0-9_-]+\/?$/.test(post.url))return;
- const tr=document.createElement('tr');tr.className='post-row';tr.dataset.id=String(post.id);
- cell(tr,'num','');const td=cell(tr,'');const a=document.createElement('a');a.className='account-link';a.textContent='@'+String(post.account||'unknown');a.href=post.url;a.target='_blank';a.rel='noopener noreferrer';td.appendChild(a);
- const status=cell(tr,'');const dot=document.createElement('span');dot.className='status-dot';status.appendChild(dot);
- const label=document.createElement('span');label.className='status-text';label.textContent='New';status.appendChild(label);
- const check=document.createElement('button');check.className='check';check.textContent='CHECK';check.onclick=()=>toggleChecked(String(post.id));status.appendChild(check);
- cell(tr,'date',String(post.date||'').slice(0,10));const captd=cell(tr,'caption-cell');const div=document.createElement('div');div.className='caption';div.textContent=String(post.caption||'');div.title=String(post.caption||'');captd.appendChild(div);
- document.getElementById('tbody').appendChild(tr);
-}
-async function load(){
- try{
-  const response=await fetch('./posts.json?cache='+Date.now(),{cache:'no-store'});
-  if(!response.ok)throw new Error('HTTP '+response.status);
-  const data=await response.json();const list=Array.isArray(data)?data:data.posts;
-  if(!Array.isArray(list))throw new Error('Invalid posts.json');
-  const used=new Set();list.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).forEach(p=>{if(!p.id||used.has(String(p.id)))return;used.add(String(p.id));addPost(p)});
-  document.getElementById('dataNotice').textContent=`Media candidates (unverified) · Data: ${data.updated_at||'unknown'} · CHECK saved in this browser only`;
- }catch(e){document.getElementById('dataNotice').textContent='Unable to load posts.json — check repository upload and refresh';console.error(e)}
- render();
-}
-load();
+const PER_PAGE=10, KEY='wonyoung_dior_checked_v3';let currentPage=1,onlyUnchecked=false,dataRows=[];
+const $=id=>document.getElementById(id);function checkedSet(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}}function saveSet(s){localStorage.setItem(KEY,JSON.stringify([...s]))}function fmt(n){n=Number(n||0);if(!n)return '—';return new Intl.NumberFormat('en',{notation:n>=10000?'compact':'standard',maximumFractionDigits:1}).format(n)}
+function filtered(){const q=$('search').value.toLowerCase().trim(),checked=checkedSet();return dataRows.filter(x=>(!q||(`${x.account} ${x.caption}`).toLowerCase().includes(q))&&(!onlyUnchecked||!checked.has(String(x.id))))}
+function render(){const checked=checkedSet(),rows=filtered(),pages=Math.max(1,Math.ceil(rows.length/PER_PAGE));currentPage=Math.max(1,Math.min(currentPage,pages));const start=(currentPage-1)*PER_PAGE;$('tbody').replaceChildren();rows.slice(start,start+PER_PAGE).forEach((p,i)=>{const tr=document.createElement('tr');if(checked.has(String(p.id)))tr.classList.add('checked');const vals=[start+i+1];let td=document.createElement('td');td.className='num';td.textContent=vals[0];tr.append(td);td=document.createElement('td');const a=document.createElement('a');a.className='account-link';a.href=p.url;a.target='_blank';a.rel='noopener';a.textContent='@'+(p.account||'unknown');td.append(a);tr.append(td);td=document.createElement('td');td.className='status';const b=document.createElement('span');const verified=['manually_verified','source_verified'].includes(p.review_status);b.className='badge '+(verified?'verified':'auto');b.textContent=verified?'VERIFIED':'AUTO';td.append(b);const c=document.createElement('button');c.className='check';c.textContent=checked.has(String(p.id))?'CHECKED ✓':'CHECK';c.onclick=()=>{const s=checkedSet();s.has(String(p.id))?s.delete(String(p.id)):s.add(String(p.id));saveSet(s);render()};td.append(c);tr.append(td);td=document.createElement('td');td.className='date';td.textContent=String(p.date||'').slice(0,10)||'—';tr.append(td);for(const k of ['likes','comments','views']){td=document.createElement('td');td.className='metric';td.textContent=fmt(p[k]);tr.append(td)}td=document.createElement('td');td.className='caption-cell';const d=document.createElement('div');d.className='caption';d.textContent=p.caption||'';d.title=p.caption||'';td.append(d);tr.append(td);$('tbody').append(tr)});$('total').textContent=dataRows.length;$('unchecked').textContent=dataRows.filter(x=>!checked.has(String(x.id))).length;$('empty').style.display=rows.length?'none':'block';const pg=$('pagination');pg.replaceChildren();const btn=(t,fn,dis,active)=>{const b=document.createElement('button');b.textContent=t;b.disabled=dis;if(active)b.className='active';b.onclick=fn;pg.append(b)};btn('‹',()=>{currentPage--;render()},currentPage===1);for(let i=1;i<=pages;i++)btn(String(i),()=>{currentPage=i;render()},false,i===currentPage);btn('›',()=>{currentPage++;render()},currentPage===pages);$('pageinfo').textContent=rows.length?`Page ${currentPage} of ${pages} · ${rows.length} records`:'0 records'}
+async function load(silent=false){try{const r=await fetch('./posts.json?cache='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const d=await r.json();const list=Array.isArray(d)?d:d.posts;if(!Array.isArray(list))throw Error('Invalid posts.json');const used=new Set();dataRows=list.filter(x=>x&&x.id&&x.url&&!used.has(String(x.id))&&used.add(String(x.id))).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));$('dataNotice').textContent=`Live media feed · last data update: ${d.updated_at||'unknown'} · AUTO = machine-discovered, VERIFIED = manually/source verified`;render()}catch(e){if(!silent)$('dataNotice').textContent='Unable to load live feed: '+e.message}}
+$('search').oninput=()=>{currentPage=1;render()};$('filterBtn').onclick=()=>{onlyUnchecked=!onlyUnchecked;$('filterBtn').textContent=onlyUnchecked?'SHOW ALL':'ONLY UNCHECKED';currentPage=1;render()};load();setInterval(()=>load(true),60000);
 </script>
 </body>
 </html>
