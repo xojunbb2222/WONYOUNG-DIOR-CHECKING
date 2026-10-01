@@ -2,8 +2,9 @@ name: Discover global WONYOUNG Dior media
 
 on:
   workflow_dispatch:
+  # Post-show cost-saving mode: once per hour.
   schedule:
-    - cron: '7,22,37,52 * * * *'
+    - cron: '7 * * * *'
 
 permissions:
   contents: write
